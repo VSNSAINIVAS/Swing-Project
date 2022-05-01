@@ -60,6 +60,7 @@ public class UserDetails extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -250,9 +251,9 @@ public class UserDetails extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addGap(34, 34, 34))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(273, 273, 273)
+                .addGap(271, 271, 271)
                 .addComponent(Addbtn)
-                .addGap(106, 106, 106)
+                .addGap(110, 110, 110)
                 .addComponent(DelBtn)
                 .addGap(88, 88, 88)
                 .addComponent(UpdBtn)
@@ -279,22 +280,22 @@ public class UserDetails extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(phone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12))
-                .addGap(28, 28, 28)
-                .addComponent(jLabel8)
-                .addGap(12, 12, 12)
-                .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Addbtn)
-                    .addComponent(DelBtn)
-                    .addComponent(UpdBtn))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(jLabel8)
+                        .addGap(12, 12, 12)
+                        .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 152, Short.MAX_VALUE)
                         .addComponent(jLabel7)
                         .addGap(92, 92, 92))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
+                        .addGap(107, 107, 107)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Addbtn)
+                            .addComponent(DelBtn)
+                            .addComponent(UpdBtn))
+                        .addGap(18, 18, 18)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addGap(8, 8, 8))))
         );
@@ -308,12 +309,23 @@ public class UserDetails extends javax.swing.JFrame {
             }
         });
 
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel13.setText("<-");
+        jLabel13.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel13MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(25, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel10)
@@ -324,11 +336,12 @@ public class UserDetails extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel13))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
 
@@ -389,7 +402,7 @@ public class UserDetails extends javax.swing.JFrame {
             if(isValid(email.getText()) && isPassword(password.getText())){
                 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","NIVASADI@2003nivasadi");
              
-                PreparedStatement toadd1 = con.prepareStatement("INSERT INTO manages(`Admin_idAdmin`,`Admin_Profit_idProfit`, `User_Account ID`) VALUES (?,0.5,?)");
+                PreparedStatement toadd1 = con.prepareStatement("INSERT INTO user(Account_ID, E_Mail, Phone, Name, Password) VALUES (?, ?, ?, ?, ?)");
                 toadd1.setInt(1,Integer.valueOf(SelID.getText()));
                 toadd1.setString(2,email.getText());
                 toadd1.setString(3, phone.getText());
@@ -398,9 +411,9 @@ public class UserDetails extends javax.swing.JFrame {
                 
                 toadd1.executeUpdate();
                 
-                PreparedStatement toadd = con.prepareStatement("INSERT INTO manages VALUES (?,NULL,?)");
+                PreparedStatement toadd = con.prepareStatement("INSERT INTO manages VALUES (?,0.5,?)");
                 toadd.setInt(1,1);
-                toadd.setInt(3,Integer.valueOf(SelID.getText()));
+                toadd.setInt(2,Integer.valueOf(SelID.getText()));
                
                 JOptionPane.showMessageDialog(this,"User Added Successfully");
             }
@@ -449,7 +462,7 @@ public class UserDetails extends javax.swing.JFrame {
                 
                 Statement add4 = con.createStatement();
                
-                add4.executeUpdate(query4);
+                add4.executeQuery(query4);
                 SelectSeller();
                 JOptionPane.showMessageDialog(this,"Deleted successfully");
                 con.close();
@@ -518,8 +531,15 @@ this.setVisible(false);// TODO add your handling code here:
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
-this.setDefaultCloseOperation(EXIT_ON_CLOSE);        // TODO add your handling code here:
+        this.dispose();
+
     }//GEN-LAST:event_jLabel10MouseClicked
+
+    private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
+        Login frame = new Login();
+        frame.setVisible(true);
+        this.setVisible(false);// TODO add your handling code here:
+    }//GEN-LAST:event_jLabel13MouseClicked
     
     
     /**
@@ -601,6 +621,7 @@ this.setDefaultCloseOperation(EXIT_ON_CLOSE);        // TODO add your handling c
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

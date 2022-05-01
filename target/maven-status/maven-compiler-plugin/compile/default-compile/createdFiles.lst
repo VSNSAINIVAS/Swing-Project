@@ -1,7 +1,6 @@
-com\mycompany\gui\Login.class
-com\mycompany\gui\Login$3.class
-com\mycompany\gui\Login$1.class
-com\mycompany\gui\Splash$1.class
-com\mycompany\gui\Splash.class
 com\mycompany\gui\GUI.class
+com\mycompany\gui\Login.class
+com\mycompany\gui\Login$1.class
+com\mycompany\gui\Splash.class
 com\mycompany\gui\Login$2.class
+com\mycompany\gui\Login$3.class

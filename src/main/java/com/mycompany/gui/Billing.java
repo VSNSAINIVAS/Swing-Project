@@ -36,6 +36,18 @@ public class Billing extends javax.swing.JFrame {
         initComponents();
         SelectProducts();
     }
+    String needed;
+    public Billing(String para){
+        initComponents();
+        needed = para;
+        SelectProducts();
+        
+    }
+    
+    double number1 = 0;
+    double number2 = 0;
+    double number3 = 0;
+    double number4 = 0;
     
     public void SelectProducts(){
         try{
@@ -81,6 +93,7 @@ public class Billing extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         BillText = new javax.swing.JTextArea();
+        jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -316,17 +329,28 @@ public class Billing extends javax.swing.JFrame {
                         .addGap(92, 92, 92))))
         );
 
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel13.setText("<-");
+        jLabel13.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel13MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap(20, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(17, 17, 17))
+                        .addGap(20, 20, 20))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31))))
         );
@@ -334,10 +358,12 @@ public class Billing extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel11)
-                .addGap(12, 12, 12)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(20, 20, 20)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -373,7 +399,46 @@ public class Billing extends javax.swing.JFrame {
 
     private void PRINTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PRINTMouseClicked
         try{
+            
+            String s1 = "SELECT * FROM payment";
+                PreparedStatement prepared = con.prepareStatement(s1);
+                ResultSet rs1 = prepared.executeQuery();
+                if(rs1.next() == false){
+                    String payment = "INSERT INTO PAYMENT VALUES(?,?,?,?,?,?,?)";
+                    PreparedStatement p = con.prepareStatement(payment);
+                    p.setInt(1,1);
+                    p.setInt(2,Integer.parseInt(id.getText()));
+                    p.setInt(3,Integer.parseInt(needed));
+                    p.setInt(4,Integer.parseInt(sellerid.getText()));
+                    p.setString(5,"ONLINE");
+                    Double profit = number1*0.02 + number2*0.05 + number3 * 0.06 + number4 * 0.07;
+                    p.setDouble(6,profit);
+                   
+                    p.executeUpdate();
+                    
+                 
+                    
+                    
+                }
+                
+                else{
+                    String payment = "INSERT INTO PAYMENT(`Product ID`,`Customer_Customer ID`,`Seller_Seller ID`,`Payment Type`,`Profit_Admin_idAdmin1`,`Seller_Profit`) VALUES(?,?,?,?,?,?)";
+                    PreparedStatement p = con.prepareStatement(payment);
+                    p.setInt(1,Integer.parseInt(id.getText()));
+                    p.setInt(2,Integer.parseInt(needed));
+                    p.setInt(3,Integer.parseInt(sellerid.getText()));
+                    p.setString(4,"ONLINE");
+                    Double profit = number1*0.02 + number2*0.05 + number3 * 0.06 + number4 * 0.07;
+                    p.setDouble(5,profit);
+                  
+                    p.executeUpdate();
+                }
+                
+                
+            BillText.setText(BillText.getText()+"\n-----------------------------------------------------------------------------------\n" + "\t\tCGST = "+ ((Final * 5/100)) + "\n\t\tSGST = " + Final * 12/100 + "\n\n\t\tTOTAL = "+(Final + Final*5/100 + Final*12/100) +"\n\n\t\tTHANK YOU VISIT AGAIN");
             BillText.print();
+            con.close();
+            
         }
         
         catch(Exception e){
@@ -385,7 +450,7 @@ public class Billing extends javax.swing.JFrame {
      Connection con = null;
     Statement st = null;
     ResultSet Rs = null;
-    
+    Double Final = 0.0;
     private void PRINTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PRINTActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_PRINTActionPerformed
@@ -407,24 +472,35 @@ public class Billing extends javax.swing.JFrame {
             catch(Exception e){
                 e.printStackTrace();
             }
+        
         if(quantity.getText().isEmpty() ||id.getText().isEmpty() || sellerid.getText().isEmpty()){
             JOptionPane.showMessageDialog(this, "Quantity, Product Id, Seller Id fields cannot be empty");
         }
         
         else try {
+            
             if(rs.next() == false){
-                JOptionPane.showMessageDialog(this,"Quantity demanded cannot be supplied");
+                JOptionPane.showMessageDialog(this,"Quantity demanded cannot be supplied or Select a value from given table");
             }
             
+            
             else{
+                System.out.println(Price+"\n");
                 Total_Price = Price*Integer.parseInt(quantity.getText());
+                if(category.getSelectedIndex() == 0)
+                    number1 += Price*Integer.parseInt(quantity.getText());
+                else if(category.getSelectedIndex() == 1)
+                    number2 += Total_Price;
+                else if(category.getSelectedIndex() == 2){
+                    number3 += Total_Price;
+                }
+                else
+                    number4 += Total_Price;
+                Final = Final + Total_Price;
                 i++;
                 if(i == 1){
-                    BillText.setText(BillText.getText()+"!========================= JVVVV ======================!\n" + "PRODUCT ID\tSELLER ID\tQUANTITY\tPRICE\tTOTAL\n"+id.getText()+"                          "+sellerid.getText()+"                         "+quantity.getText()+"                  "+Price+"                  "+Total_Price);
                     
-                    
-                    
-                    
+                    BillText.setText(BillText.getText()+"!========================= JVVVV ======================!\n" + "PRODUCT ID\tSELLER ID\tQUANTITY\tPRICE\tTOTAL\n"+id.getText()+"                          "+sellerid.getText()+"                         "+quantity.getText()+"                  "+Price+"                "+Total_Price);
                 }
                 else{
                     BillText.setText(BillText.getText()+"\n" +id.getText()+"                          "+sellerid.getText()+"                         "+quantity.getText()+"                  "+Price+"                "+Total_Price);
@@ -432,6 +508,9 @@ public class Billing extends javax.swing.JFrame {
                 }
                 
                 String s = "UPDATE SELLER_HAS_PRODUCT SET Quantity = Quantity-? WHERE `Seller_Seller ID` = ? AND `Product_Product ID` = ?";
+                
+                
+                
                 try {
                     PreparedStatement st = con.prepareStatement(s);
                     st.setInt(1,Integer.parseInt(quantity.getText()));
@@ -441,10 +520,7 @@ public class Billing extends javax.swing.JFrame {
                     st.executeUpdate();
                 } catch (SQLException ex) {
                     Logger.getLogger(Billing.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
-                
-                
+                }   
             }
         } catch (SQLException ex) {
             Logger.getLogger(Billing.class.getName()).log(Level.SEVERE, null, ex);
@@ -461,6 +537,7 @@ public class Billing extends javax.swing.JFrame {
         //productid.setText(model.getValueAt(myIndex,0).toString());
         Price = Double.valueOf(model.getValueAt(myIndex, 2).toString());
         id.setText(model.getValueAt(myIndex,0).toString());
+        sellerid.setText(model.getValueAt(myIndex,4).toString());
         category.setSelectedItem(model.getValueAt(myIndex,3).toString());
         
         //price.setText(model.getValueAt(myIndex, 2).toString());
@@ -477,6 +554,12 @@ public class Billing extends javax.swing.JFrame {
     private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
 this.dispose();
     }//GEN-LAST:event_jLabel11MouseClicked
+
+    private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
+        Customer frame = new Customer();
+        frame.setVisible(true);
+        this.setVisible(false);// TODO add your handling code here:
+    }//GEN-LAST:event_jLabel13MouseClicked
 
     /**
      * @param args the command line arguments
@@ -521,6 +604,7 @@ this.dispose();
     private javax.swing.JTextField id;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;

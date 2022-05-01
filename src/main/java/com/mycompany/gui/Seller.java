@@ -265,7 +265,7 @@ public class Seller extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);        // TODO add your handling code here:
+        this.dispose();       // TODO add your handling code here:
     }//GEN-LAST:event_jLabel10MouseClicked
 
     /**

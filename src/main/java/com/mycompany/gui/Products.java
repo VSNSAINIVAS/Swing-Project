@@ -351,26 +351,31 @@ public class Products extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("x");
+        jLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel10MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
+                .addContainerGap(20, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30))
+                .addGap(20, 20, 20))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
+                .addGap(20, 20, 20)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -385,6 +390,7 @@ public class Products extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void categoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryActionPerformed
@@ -449,23 +455,25 @@ public class Products extends javax.swing.JFrame {
         int myIndex = product_table.getSelectedRow();
         productid.setText(model.getValueAt(myIndex,0).toString());
         name.setText(model.getValueAt(myIndex,1).toString());
-        description.setText(model.getValueAt(myIndex,4).toString());
+        description.setText(model.getValueAt(myIndex,2).toString());
         category.setSelectedItem(model.getValueAt(myIndex,3).toString());
-        price.setText(model.getValueAt(myIndex, 2).toString());
+        price.setText(model.getValueAt(myIndex, 4).toString());
     }//GEN-LAST:event_product_tableMouseClicked
 
     private void updateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateMouseClicked
 
         if(productid.getText().isEmpty()){
-            JOptionPane.showMessageDialog(this,"Seller ID cannot be empty");
+            JOptionPane.showMessageDialog(this,"Product ID cannot be empty");
         }// TODO add your handling code here:
         else{
             try{
                 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","NIVASADI@2003nivasadi");
                 int proId = Integer.parseInt(productid.getText());
-    
+                   String query4 = "UPDATE PRODUCT SET category = '" + category.getSelectedItem().toString() + "' WHERE `Product ID` = " + proId;
+                   Statement adding = con.createStatement();
+                   adding.executeUpdate(query4);
                 
-                if(Integer.valueOf(price.getText()) > 0 ){
+                if(Integer.parseInt(price.getText()) > 0 ){
  
                
                
@@ -538,6 +546,10 @@ public class Products extends javax.swing.JFrame {
 frame.setVisible(true);
 this.setVisible(false);// TODO add your handling code here:
     }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
+        this.dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel10MouseClicked
 
     /**
      * @param args the command line arguments
