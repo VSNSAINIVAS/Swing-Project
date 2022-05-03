@@ -413,11 +413,7 @@ public class Billing extends javax.swing.JFrame {
                     p.setString(5,"ONLINE");
                     Double profit = number1*0.02 + number2*0.05 + number3 * 0.06 + number4 * 0.07;
                     p.setDouble(6,profit);
-                   
-                    p.executeUpdate();
-                    
-                 
-                    
+                    p.executeUpdate();                
                     
                 }
                 
@@ -485,7 +481,6 @@ public class Billing extends javax.swing.JFrame {
             
             
             else{
-                System.out.println(Price+"\n");
                 Total_Price = Price*Integer.parseInt(quantity.getText());
                 if(category.getSelectedIndex() == 0)
                     number1 += Price*Integer.parseInt(quantity.getText());
